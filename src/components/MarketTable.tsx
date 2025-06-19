@@ -78,7 +78,7 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
             </td>
             {/* Mini chart for price trend */}
             <td className="py-2 px-2 sm:px-4 font-bold text-xs sm:text-sm">
-              <div className="h-8 flex items-center justify-center">
+              <div className="min-w-[80px] min-h-6 h-8">
                 <Sparklines
                   data={item.chartdata}
                   width={80}
@@ -88,6 +88,7 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
                   <SparklinesLine color={color} />
                 </Sparklines>
               </div>
+              {/* </div> */}
             </td>
             {/* Trade button */}
             <td className="py-2 px-2 sm:px-4 font-bold text-xs sm:text-sm">
@@ -102,26 +103,36 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
 
     return (
       // Table container with scroll and shadow
-      <div className="overflow-x-auto overflow-y-auto shadow-lg rounded-2xl bg-white p-2 h-[334px]">
-        <table className="min-w-[600px] w-full bg-white rounded-lg text-xs sm:text-sm">
-          <thead>
-            <tr className="text-left text-gray-600 text-xs sm:text-sm font-semibold">
-              {/* Table headers */}
-              {[
-                "Trending Pairs",
-                "Last Price",
-                "24 hrs change",
-                "Per/Day Chart",
-                "Trade",
-              ].map((header) => (
-                <th key={header} className="py-2 px-2 sm:px-4">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
+      <div className="shadow-lg rounded-2xl bg-white p-2 h-[334px] overflow-hidden">
+        <div className="h-full overflow-x-auto">
+          <div className="min-w-[600px] h-full flex flex-col">
+            {/* Header Table (sticky header) */}
+            <table className="w-full text-xs sm:text-sm">
+              <thead className="sticky top-0 bg-white z-10">
+                <tr className="text-left text-gray-600 font-semibold">
+                  {[
+                    "Trending Pairs",
+                    "Last Price",
+                    "24 hrs change",
+                    "Per/Day Chart",
+                    "Trade",
+                  ].map((header) => (
+                    <th key={header} className="py-2 px-2 sm:px-4">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            </table>
+
+            {/* Scrollable Body */}
+            <div className="flex-1 overflow-y-auto">
+              <table className="w-full text-xs sm:text-sm">
+                <tbody>{rows}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

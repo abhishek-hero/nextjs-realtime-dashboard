@@ -1,8 +1,10 @@
+// MarketTable component: displays trending pairs, prices, changes, mini charts, and trade button
 import React, { useMemo } from "react";
 import { PairData, MarketTableProps } from "../types/dashboard";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import Image from "next/image";
 
+// Shows a message row for loading or empty states
 const EmptyComponent = ({ title }: { title: string }) => {
   return (
     <tr>
@@ -16,18 +18,32 @@ const EmptyComponent = ({ title }: { title: string }) => {
   );
 };
 
+// Main table component
 const MarketTable: React.FC<MarketTableProps> = React.memo(
   ({ tabData, loading }) => {
+    // Memoize table rows for performance
     const rows = useMemo(() => {
       if (loading) return <EmptyComponent title="Loading..." />;
       if (tabData.length === 0)
         return <EmptyComponent title="No data available" />;
       return tabData.map((item: PairData) => {
+        // Set chart color based on price change
         const color = item.change > 0 ? "#22c55e" : "#ef4444";
+        // Map symbol to icon image
         const iconMap: Record<string, string> = {
           "BTC/INR": "/coin1.jpeg",
           "LTC/INR": "/coin2.jpg",
-          "BNB/INR": "/coin3.jpeg",
+          "REGENT/INR": "/coin3.jpeg",
+          "RICE/INR": "/coin1.jpeg",
+          "ETH/INR": "/coin2.jpg",
+          "DOGE/INR": "/coin3.jpeg",
+          "ADA/INR": "/coin1.jpeg",
+          "XRP/INR": "/coin2.jpg",
+          "1000MUMU/INR": "/coin1.jpeg",
+          "AVA/INR": "/coin2.jpg",
+          "SHIB/INR": "/coin3.jpeg",
+          "PEPE/INR": "/coin1.jpeg",
+          "SOL/INR": "/coin2.jpg",
         };
         const iconSrc = iconMap[item.symbol] || "/coin1.jpeg";
         return (
@@ -35,6 +51,7 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
             key={item.symbol}
             className="hover:bg-gray-50 transition-colors p-2"
           >
+            {/* Pair name and icon */}
             <td className="py-2 px-2 sm:px-4 text-gray-800 font-bold text-xs sm:text-sm">
               <div className="flex items-center gap-2">
                 <Image
@@ -47,9 +64,11 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
                 <span>{item.symbol}</span>
               </div>
             </td>
+            {/* Last price */}
             <td className="py-2 px-2 sm:px-4 text-gray-800 font-bold text-xs sm:text-sm">
               ₹ {item.price.toLocaleString()}
             </td>
+            {/* 24h change, colored by positive/negative */}
             <td
               className={`py-2 px-2 sm:px-4 font-bold text-xs sm:text-sm ${
                 item.change > 0 ? "text-green-600" : "text-red-500"
@@ -57,6 +76,7 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
             >
               {item.change} %
             </td>
+            {/* Mini chart for price trend */}
             <td className="py-2 px-2 sm:px-4 font-bold text-xs sm:text-sm">
               <div className="h-8 flex items-center justify-center">
                 <Sparklines
@@ -69,6 +89,7 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
                 </Sparklines>
               </div>
             </td>
+            {/* Trade button */}
             <td className="py-2 px-2 sm:px-4 font-bold text-xs sm:text-sm">
               <button className="border border-[#59e1ff] text-gray-800 px-3 sm:px-4 py-1 rounded-full hover:bg-[#e0f8fd] font-bold w-full sm:w-auto">
                 Trade
@@ -80,10 +101,12 @@ const MarketTable: React.FC<MarketTableProps> = React.memo(
     }, [tabData, loading]);
 
     return (
+      // Table container with scroll and shadow
       <div className="overflow-x-auto overflow-y-auto shadow-lg rounded-2xl bg-white p-2 h-[334px]">
         <table className="min-w-[600px] w-full bg-white rounded-lg text-xs sm:text-sm">
           <thead>
             <tr className="text-left text-gray-600 text-xs sm:text-sm font-semibold">
+              {/* Table headers */}
               {[
                 "Trending Pairs",
                 "Last Price",

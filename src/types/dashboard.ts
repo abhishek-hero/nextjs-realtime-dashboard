@@ -9,4 +9,9 @@ export type PairData = {
 export type DataType = {
   hot: PairData[];
   new: PairData[];
+};
+
+export type MarketTableProps = {
+  tabData: PairData[];
+  loading: boolean;
 }; 

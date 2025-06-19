@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-
-const navLinks = [
-  { label: "Markets", href: "#" },
-  { label: "Fees", href: "#" },
-  { label: "Trade", href: "#" },
-  { label: "List Your Crypto", href: "#" },
-];
+import { navLinks } from "../constants/dashboard";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,9 +24,6 @@ export default function Navbar() {
       </div>
       <div className="flex gap-4 items-center">
         <button className="bg-[#59e1ff] hover:bg-[#3fc6e0] text-white px-5 py-2 rounded-full font-semibold shadow transition-colors duration-150">Deposit</button>
-        <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-lg border border-gray-300">
-          <span>A</span>
-        </div>
         {/* Hamburger for mobile */}
         <button
           className="md:hidden flex items-center justify-center w-10 h-10 rounded hover:bg-gray-100 focus:outline-none"
